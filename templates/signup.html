@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account - DyslexiLens{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="auth-panel">
+    <div class="auth-header">
+      <span class="auth-header-tag">Registration</span>
+      <h1>Create Account</h1>
+      <p>Set up your ergonomic reading workspace in seconds.</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('signup') }}" novalidate>
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-input" 
+          value="{{ username or '' }}"
+          placeholder="e.g. alex_reader" 
+          required 
+          autocomplete="username"
+          autofocus
+        >
+        <span class="form-hint">At least 3 characters. Letters, numbers, and underscores only.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-input" 
+          value="{{ email or '' }}"
+          placeholder="name@example.com" 
+          required 
+          autocomplete="email"
+        >
+        <span class="form-hint">Used for account identification and notifications.</span>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-input" 
+          placeholder="Create a secure password" 
+          required 
+          autocomplete="new-password"
+        >
+        <span class="form-hint">Minimum 6 characters. Passwords are encrypted before storage.</span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" id="signup-submit-btn">
+        Create Account
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Already have an account?
+      <a href="{{ url_for('login') }}" id="link-to-login">Sign in here</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - DyslexiLens{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="auth-panel">
+    <div class="auth-header">
+      <span class="auth-header-tag">Account Access</span>
+      <h1>Sign In</h1>
+      <p>Enter your credentials to access your reading workspace.</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('login') }}" novalidate>
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-input" 
+          value="{{ username or '' }}"
+          placeholder="Enter your username" 
+          required 
+          autocomplete="username"
+          autofocus
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-input" 
+          placeholder="Enter your password" 
+          required 
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" id="login-submit-btn">
+        Sign In
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      Don't have an account yet?
+      <a href="{{ url_for('signup') }}" id="link-to-signup">Create one now</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
