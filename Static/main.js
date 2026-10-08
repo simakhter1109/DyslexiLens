@@ -446,7 +446,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (response.ok && data.success) {
           // Keep natural text flow
+          originalReadingText = data.text;
+          currentSpeechIndex = 0;
+          speechSentences = [];
           previewBox.textContent = data.text;
+          renderReadingText();
           statusMessage.textContent = `Successfully extracted text from "${data.filename}"!`;
           
           previewBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -473,5 +477,532 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+  }
+
+    // ============================================================
+  // 5. DYSLEXILENS ACCESSIBILITY READING FEATURES
+  //    Bionic Reading + Text-to-Speech + Synchronized Highlighting
+  // ============================================================
+
+  let originalReadingText = previewBox ? previewBox.textContent : '';
+  let speechSentences = [];
+  let currentSpeechIndex = 0;
+  let speechIsRunning = false;
+
+
+  // ------------------------------------------------------------
+  // Utility: Escape HTML
+  // Prevent OCR text from being interpreted as HTML.
+  // ------------------------------------------------------------
+
+  function escapeHTML(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+
+  // ------------------------------------------------------------
+  // Split extracted text into sentences
+  // ------------------------------------------------------------
+
+  function splitIntoSentences(text) {
+
+    if (!text || !text.trim()) {
+      return [];
+    }
+
+    return text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)
+      ?.map(sentence => sentence.trim())
+      .filter(sentence => sentence.length > 0) || [];
+  }
+
+
+  // ------------------------------------------------------------
+  // Bionic-style word formatting
+  // ------------------------------------------------------------
+
+  function makeBionicWord(word) {
+
+    if (!word.trim()) {
+      return word;
+    }
+
+    // Separate punctuation from the word
+    const match = word.match(/^([^a-zA-Z0-9]*)([a-zA-Z0-9]+)(.*)$/);
+
+    if (!match) {
+      return escapeHTML(word);
+    }
+
+    const prefix = match[1];
+    const actualWord = match[2];
+    const suffix = match[3];
+
+    // Emphasize approximately the first 40% of the word
+    const boldLength = Math.max(
+      1,
+      Math.ceil(actualWord.length * 0.4)
+    );
+
+    const boldPart = actualWord.substring(0, boldLength);
+    const remainingPart = actualWord.substring(boldLength);
+
+    return (
+      escapeHTML(prefix) +
+      '<strong class="bionic-emphasis">' +
+      escapeHTML(boldPart) +
+      '</strong>' +
+      escapeHTML(remainingPart) +
+      escapeHTML(suffix)
+    );
+  }
+
+
+  // ------------------------------------------------------------
+  // Render the reading area
+  // ------------------------------------------------------------
+
+  function renderReadingText() {
+
+    if (!previewBox) return;
+
+    speechSentences = splitIntoSentences(originalReadingText);
+
+    if (speechSentences.length === 0) {
+      previewBox.textContent = originalReadingText;
+      return;
+    }
+
+    const bionicEnabled =
+      document.getElementById('toggle-bionic')?.checked || false;
+
+    previewBox.innerHTML = speechSentences
+      .map((sentence, index) => {
+
+        let content;
+
+        if (bionicEnabled) {
+
+          content = sentence
+            .split(/(\s+)/)
+            .map(part => {
+
+              if (/^\s+$/.test(part)) {
+                return escapeHTML(part);
+              }
+
+              return makeBionicWord(part);
+
+            })
+            .join('');
+
+        } else {
+
+          content = escapeHTML(sentence);
+
+        }
+
+        return `
+          <span
+            class="speech-sentence"
+            data-speech-index="${index}">
+            ${content}
+          </span>
+          <span> </span>
+        `;
+
+      })
+      .join('');
+  }
+
+
+  // ------------------------------------------------------------
+  // Bionic toggle
+  // ------------------------------------------------------------
+
+  const bionicToggle =
+    document.getElementById('toggle-bionic');
+
+  if (bionicToggle) {
+
+    bionicToggle.addEventListener('change', () => {
+
+      // Stop speech before rebuilding the reading DOM
+      speechSynthesis.cancel();
+
+      speechIsRunning = false;
+
+      renderReadingText();
+
+      updateSpeechStatus(
+        bionicToggle.checked
+          ? 'Bionic Reading ON'
+          : 'Bionic Reading OFF'
+      );
+
+    });
+  }
+
+
+  // ------------------------------------------------------------
+  // Font selector
+  // ------------------------------------------------------------
+
+  const fontSelector =
+    document.getElementById('font-selector');
+
+  if (fontSelector && previewBox) {
+
+    fontSelector.addEventListener('change', (e) => {
+
+      previewBox.style.fontFamily = e.target.value;
+
+      applyZoomSettings();
+
+    });
+  }
+
+
+  // ------------------------------------------------------------
+  // Text-to-Speech elements
+  // ------------------------------------------------------------
+
+  const speechPlay =
+    document.getElementById('speech-play');
+
+  const speechPause =
+    document.getElementById('speech-pause');
+
+  const speechStop =
+    document.getElementById('speech-stop');
+
+  const speechRate =
+    document.getElementById('speech-rate');
+
+  const speechRateValue =
+    document.getElementById('speech-rate-value');
+
+  const speechStatus =
+    document.getElementById('speech-status');
+
+
+  // ------------------------------------------------------------
+  // Speech status helper
+  // ------------------------------------------------------------
+
+  function updateSpeechStatus(message) {
+
+    if (speechStatus) {
+      speechStatus.textContent = message;
+    }
+  }
+
+
+  // ------------------------------------------------------------
+  // Remove current sentence highlight
+  // ------------------------------------------------------------
+
+  function clearSpeechHighlight() {
+
+    if (!previewBox) return;
+
+    previewBox
+      .querySelectorAll('.speech-sentence')
+      .forEach(sentence => {
+
+        sentence.classList.remove('speaking');
+
+      });
+  }
+
+
+  // ------------------------------------------------------------
+  // Highlight current sentence
+  // ------------------------------------------------------------
+
+  function highlightSpeechSentence(index) {
+
+    clearSpeechHighlight();
+
+    const currentSentence =
+      previewBox.querySelector(
+        `.speech-sentence[data-speech-index="${index}"]`
+      );
+
+    if (!currentSentence) return;
+
+    currentSentence.classList.add('speaking');
+
+    // Automatically bring spoken sentence into view
+    currentSentence.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+
+
+  // ------------------------------------------------------------
+  // Speak one sentence
+  // ------------------------------------------------------------
+
+  function speakSentence(index) {
+
+    if (!speechSentences.length) {
+
+      updateSpeechStatus(
+        'Upload or enter some text first.'
+      );
+
+      return;
+    }
+
+
+    if (index >= speechSentences.length) {
+
+      speechIsRunning = false;
+      currentSpeechIndex = 0;
+
+      clearSpeechHighlight();
+
+      updateSpeechStatus('Finished');
+
+      return;
+    }
+
+
+    currentSpeechIndex = index;
+
+    highlightSpeechSentence(index);
+
+    const utterance =
+      new SpeechSynthesisUtterance(
+        speechSentences[index]
+      );
+
+
+    // Reading speed
+    utterance.rate =
+      parseFloat(speechRate?.value || 1);
+
+
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+
+    // When sentence finishes
+    utterance.onend = () => {
+
+      if (!speechIsRunning) return;
+
+      speakSentence(index + 1);
+
+    };
+
+
+    utterance.onerror = () => {
+
+      speechIsRunning = false;
+
+      updateSpeechStatus(
+        'Speech error'
+      );
+
+    };
+
+
+    updateSpeechStatus(
+      `Reading ${index + 1} of ${speechSentences.length}`
+    );
+
+
+    speechSynthesis.speak(utterance);
+  }
+
+
+  // ------------------------------------------------------------
+  // PLAY
+  // ------------------------------------------------------------
+
+  if (speechPlay) {
+
+    speechPlay.addEventListener('click', () => {
+
+      if (!('speechSynthesis' in window)) {
+
+        updateSpeechStatus(
+          'Text-to-Speech is not supported in this browser.'
+        );
+
+        return;
+      }
+
+
+      // If paused, resume instead of restarting
+      if (speechSynthesis.paused) {
+
+        speechSynthesis.resume();
+
+        speechIsRunning = true;
+
+        updateSpeechStatus(
+          `Reading ${currentSpeechIndex + 1} of ${speechSentences.length}`
+        );
+
+        return;
+      }
+
+
+      // If currently speaking, don't start another utterance
+      if (speechSynthesis.speaking) {
+        return;
+      }
+
+
+      // Prepare text if necessary
+      if (!speechSentences.length) {
+
+        renderReadingText();
+
+      }
+
+
+      if (!speechSentences.length) {
+
+        updateSpeechStatus(
+          'No text available to read.'
+        );
+
+        return;
+      }
+
+
+      speechIsRunning = true;
+
+      speechSynthesis.cancel();
+
+      speakSentence(currentSpeechIndex);
+
+    });
+  }
+
+
+  // ------------------------------------------------------------
+  // PAUSE
+  // ------------------------------------------------------------
+
+  if (speechPause) {
+
+    speechPause.addEventListener('click', () => {
+
+      if (speechSynthesis.speaking) {
+
+        speechSynthesis.pause();
+
+        updateSpeechStatus('Paused');
+
+      }
+
+    });
+  }
+
+
+  // ------------------------------------------------------------
+  // STOP
+  // ------------------------------------------------------------
+
+  if (speechStop) {
+
+    speechStop.addEventListener('click', () => {
+
+      speechIsRunning = false;
+
+      speechSynthesis.cancel();
+
+      currentSpeechIndex = 0;
+
+      clearSpeechHighlight();
+
+      updateSpeechStatus('Stopped');
+
+    });
+  }
+
+
+  // ------------------------------------------------------------
+  // Speech speed slider
+  // ------------------------------------------------------------
+
+  if (speechRate && speechRateValue) {
+
+    speechRate.addEventListener('input', (e) => {
+
+      const value =
+        parseFloat(e.target.value).toFixed(1);
+
+      speechRateValue.textContent =
+        `${value}×`;
+
+    });
+
+  }
+
+
+  // ------------------------------------------------------------
+  // Keep extracted OCR text as the source for accessibility
+  // ------------------------------------------------------------
+
+  const originalUploadHandler =
+    uploadForm;
+
+  if (uploadForm) {
+
+    uploadForm.addEventListener('submit', () => {
+
+      // Stop any existing speech
+      speechSynthesis.cancel();
+
+      speechIsRunning = false;
+
+    });
+
+  }
+
+
+  // ------------------------------------------------------------
+  // Observe changes to the reading preview.
+  // This catches OCR text inserted by the existing upload code.
+  // ------------------------------------------------------------
+
+  if (previewBox) {
+
+    const originalPreviewText =
+      previewBox.textContent.trim();
+
+    if (originalPreviewText) {
+      originalReadingText = originalPreviewText;
+    }
+
+
+    // Keep track of user-entered/editable text.
+    previewBox.addEventListener('input', () => {
+
+      // Only update source when not using generated speech markup
+      if (
+        !previewBox.querySelector('.speech-sentence')
+      ) {
+
+        originalReadingText =
+          previewBox.textContent;
+
+        speechSentences = [];
+
+      }
+
+    });
+
   }
 });
