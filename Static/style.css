@@ -1094,3 +1094,927 @@ a:hover {
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
 }
+
+/* =========================================================
+   DYSLEXILENS — RETRO DESKTOP / BEIGE + PINK THEME
+   Add this at the VERY BOTTOM of style.css
+   ========================================================= */
+
+/* ---------- RETRO COLOUR SYSTEM ---------- */
+
+:root {
+  --bg-page: #eadfcf;
+  --bg-page-subtle: #e2d4c0;
+
+  --surface-card: #fff8ea;
+  --surface-card-subtle: #f5eadb;
+  --surface-card-hover: #fffdf6;
+
+  --border-subtle: #cbb8a8;
+  --border-medium: #a58d84;
+  --border-focus: #b75c78;
+
+  --text-primary: #3f3035;
+  --text-secondary: #67545a;
+  --text-muted: #887276;
+
+  --accent-sage: #b75c78;
+  --accent-sage-hover: #91465e;
+  --accent-sage-light: #f2ccd7;
+  --accent-sage-border: #d49aaa;
+  --accent-sage-text: #71394c;
+
+  --accent-success-bg: #e8e0cf;
+  --accent-success-border: #c7b89d;
+  --accent-success-text: #54462e;
+
+  --btn-primary-bg: #b75c78;
+  --btn-primary-hover: #91465e;
+  --btn-primary-text: #fff9f4;
+
+  --btn-secondary-bg: #fff8ea;
+  --btn-secondary-hover: #f4dfdf;
+  --btn-secondary-border: #b99da0;
+  --btn-secondary-text: #4a383d;
+
+  --shadow-subtle:
+    1px 1px 0 #fffdf7,
+    2px 2px 0 #b9a69b;
+
+  --shadow-card:
+    2px 2px 0 #a58d84,
+    4px 4px 0 rgba(116, 82, 88, 0.12);
+
+  --shadow-hover:
+    3px 3px 0 #9b7e83,
+    6px 6px 0 rgba(116, 82, 88, 0.14);
+
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 6px;
+}
+
+
+/* ---------- PAGE ---------- */
+
+body {
+  background:
+    linear-gradient(
+      rgba(255, 248, 234, 0.22) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(183, 92, 120, 0.025) 1px,
+      transparent 1px
+    ),
+    var(--bg-page);
+
+  background-size: 22px 22px;
+
+  color: var(--text-primary);
+
+  font-family:
+    'Lexend',
+    'Segoe UI',
+    sans-serif;
+}
+
+
+/* ---------- HEADER ---------- */
+
+.app-header {
+  background: #f8ead8;
+  border-bottom: 3px solid #9e8580;
+  box-shadow:
+    0 2px 0 #fffaf1,
+    0 4px 0 #c0aaa0;
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  padding: 0.75rem 1.25rem;
+}
+
+.header-container {
+  max-width: 1250px;
+}
+
+
+/* ---------- LOGO ---------- */
+
+.logo-container {
+  gap: 0.55rem;
+}
+
+.logo-icon-wrap {
+  width: 42px;
+  height: 38px;
+
+  background: #e9b6c5;
+
+  border: 2px outset #fff1f3;
+  border-radius: 3px;
+
+  box-shadow:
+    2px 2px 0 #9d777f;
+
+  color: #71394c;
+}
+
+.logo-icon-wrap svg {
+  stroke: #71394c;
+}
+
+.logo-title {
+  font-family:
+    'Courier New',
+    monospace;
+
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  color: #49343b;
+}
+
+
+/* ---------- NAV BUTTONS ---------- */
+
+.nav-actions .btn {
+  border-radius: 3px;
+  border: 2px outset #fff8f1;
+
+  background: #f7eadc;
+
+  box-shadow:
+    2px 2px 0 #9f8587;
+
+  font-family:
+    'Courier New',
+    monospace;
+
+  font-size: 0.88rem;
+}
+
+.nav-actions .btn:hover {
+  transform: none;
+
+  background: #f2d2dc;
+
+  box-shadow:
+    1px 1px 0 #9f8587;
+}
+
+.nav-actions .btn:active {
+  transform: translate(2px, 2px);
+
+  border-style: inset;
+}
+
+
+/* ---------- MAIN AREA ---------- */
+
+.main-wrapper {
+  max-width: 1250px;
+  padding-top: 2rem;
+}
+
+
+/* ---------- ALL MAJOR PANELS ---------- */
+
+.panel-card,
+.workspace-panel,
+.upload-panel,
+.auth-panel,
+.overview-banner {
+  background: #fff8ea;
+
+  border: 2px solid #b99f98;
+
+  border-radius: 5px;
+
+  box-shadow:
+    3px 3px 0 #a58d84,
+    6px 6px 0 rgba(112, 77, 86, 0.10);
+
+  transition:
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.panel-card:hover,
+.workspace-panel:hover,
+.upload-panel:hover {
+  transform: none;
+
+  box-shadow:
+    4px 4px 0 #987b81,
+    7px 7px 0 rgba(112, 77, 86, 0.12);
+}
+
+
+/* ---------- PANEL HEADERS ---------- */
+
+.panel-header {
+  border-bottom: 2px solid #cdb8ae;
+}
+
+.panel-title {
+  font-family:
+    'Courier New',
+    monospace;
+
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.panel-title svg {
+  stroke: #b75c78;
+}
+
+
+/* ---------- BADGES ---------- */
+
+.status-badge,
+.panel-count,
+.format-badge,
+.slider-value-pill {
+  background: #f2ccd7;
+
+  border: 2px solid #d09aaa;
+
+  border-radius: 3px;
+
+  color: #71394c;
+
+  box-shadow:
+    1px 1px 0 #a9898f;
+}
+
+
+/* ---------- UPLOAD SECTION ---------- */
+
+.upload-panel {
+  padding: 2rem;
+}
+
+.upload-zone {
+  background: #f7ecdf;
+
+  border: 2px dashed #b58d98;
+
+  border-radius: 4px;
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,0.45);
+}
+
+.upload-zone:hover,
+.upload-zone.dragover {
+  background: #f7dfe6;
+
+  border-color: #b75c78;
+}
+
+.upload-icon-circle {
+  background: #f0c4d1;
+
+  border: 2px outset #fff0f3;
+
+  border-radius: 3px;
+
+  box-shadow:
+    2px 2px 0 #a17d85;
+}
+
+.upload-icon-circle svg {
+  stroke: #71394c;
+}
+
+.upload-title {
+  font-family:
+    'Courier New',
+    monospace;
+
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+
+/* ---------- FILE INPUT ---------- */
+
+.file-input-custom {
+  background: #fffaf2;
+
+  border: 2px inset #c6b4a9;
+
+  border-radius: 2px;
+}
+
+
+/* ---------- PRIMARY BUTTONS ---------- */
+
+.btn-primary {
+  background: #b75c78;
+
+  border: 2px outset #e9b4c3;
+
+  border-radius: 3px;
+
+  box-shadow:
+    2px 2px 0 #8e6971;
+
+  font-family:
+    'Courier New',
+    monospace;
+
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background: #a94f6d;
+
+  transform: none;
+
+  box-shadow:
+    1px 1px 0 #8e6971;
+}
+
+.btn-primary:active {
+  transform: translate(2px, 2px);
+
+  border-style: inset;
+}
+
+
+/* ---------- SECONDARY BUTTONS ---------- */
+
+.btn-secondary {
+  background: #fff8ea;
+
+  border: 2px outset #fffdf7;
+
+  border-radius: 3px;
+
+  box-shadow:
+    2px 2px 0 #a58d84;
+
+  font-family:
+    'Courier New',
+    monospace;
+}
+
+.btn-secondary:hover {
+  background: #f5dce3;
+
+  border-color: #d1a6b1;
+
+  transform: none;
+}
+
+
+/* ---------- READING WORKSPACE ---------- */
+
+.workspace-panel {
+  padding: 1.5rem;
+}
+
+
+/* ---------- SLIDER AREA ---------- */
+
+.sliders-grid {
+  background: #f4e8d9;
+
+  border: 2px inset #c9b5a7;
+
+  border-radius: 3px;
+
+  padding: 1.25rem;
+}
+
+
+/* ---------- SLIDER ---------- */
+
+.range-slider {
+  height: 9px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #d2bfc0 0px,
+      #d2bfc0 8px,
+      #eadcdf 8px,
+      #eadcdf 10px
+    );
+
+  border: 1px solid #a88e91;
+
+  border-radius: 2px;
+}
+
+.range-slider::-webkit-slider-thumb {
+  width: 19px;
+  height: 19px;
+
+  background: #c46683;
+
+  border: 2px outset #f7d9e1;
+
+  border-radius: 2px;
+
+  box-shadow:
+    1px 1px 0 #85666e;
+
+  transition: none;
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+  transform: none;
+  background: #b75c78;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 19px;
+  height: 19px;
+
+  background: #c46683;
+
+  border: 2px outset #f7d9e1;
+
+  border-radius: 2px;
+
+  box-shadow:
+    1px 1px 0 #85666e;
+}
+
+
+/* ---------- READING SETTINGS ---------- */
+
+.settings-toggle-strip {
+  background: #f5e5e4;
+
+  border: 2px inset #c9b1b0;
+
+  border-radius: 3px;
+}
+
+
+/* ---------- TOGGLE ---------- */
+
+.switch-slider {
+  width: 40px;
+  height: 22px;
+
+  background: #c8b7ad;
+
+  border: 2px inset #a99790;
+
+  border-radius: 2px;
+}
+
+.switch-slider::before {
+  width: 14px;
+  height: 14px;
+
+  left: 2px;
+  top: 2px;
+
+  background: #fff8ed;
+
+  border-radius: 1px;
+
+  border: 1px solid #a28a88;
+
+  box-shadow: none;
+}
+
+.switch-control input:checked + .switch-slider {
+  background: #c46683;
+}
+
+.switch-control input:checked + .switch-slider::before {
+  transform: translateX(18px);
+}
+
+
+/* =========================================================
+   NEW ACCESSIBILITY CONTROLS
+   ========================================================= */
+
+.reading-options-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+.reading-option-card {
+  background: #f7ecdf;
+
+  border: 2px inset #cbb7aa;
+
+  border-radius: 3px;
+
+  padding: 1rem;
+}
+
+.reading-option-card small {
+  display: block;
+
+  margin-top: 0.45rem;
+
+  color: #76636a;
+
+  font-size: 0.78rem;
+}
+
+
+/* ---------- FONT SELECTOR ---------- */
+
+.font-selector {
+  width: 100%;
+
+  margin-top: 0.45rem;
+
+  padding: 0.55rem 0.65rem;
+
+  background: #fffaf2;
+
+  color: #49343b;
+
+  border: 2px inset #c4b0a6;
+
+  border-radius: 2px;
+
+  font-family:
+    'Courier New',
+    monospace;
+
+  font-size: 0.9rem;
+
+  cursor: pointer;
+}
+
+.font-selector:focus {
+  outline: 2px solid #d4879c;
+  outline-offset: 1px;
+}
+
+
+/* =========================================================
+   READ ALOUD
+   ========================================================= */
+
+.speech-panel {
+  margin-top: 1rem;
+
+  padding: 1rem 1.2rem;
+
+  background: #f2dfe4;
+
+  border: 2px inset #c5aeb1;
+
+  border-radius: 3px;
+}
+
+.speech-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-bottom: 0.75rem;
+}
+
+.speech-header h3 {
+  margin-bottom: 0.2rem;
+
+  font-family:
+    'Courier New',
+    monospace;
+
+  text-transform: uppercase;
+
+  color: #71394c;
+}
+
+.speech-header p {
+  margin-bottom: 0;
+
+  font-size: 0.82rem;
+}
+
+.speech-status {
+  padding: 0.3rem 0.6rem;
+
+  background: #f9f0e5;
+
+  border: 2px solid #bca59e;
+
+  border-radius: 2px;
+
+  font-family:
+    'Courier New',
+    monospace;
+
+  font-size: 0.75rem;
+
+  white-space: nowrap;
+}
+
+
+/* ---------- SPEECH BUTTONS ---------- */
+
+.speech-buttons {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.55rem;
+
+  margin-bottom: 0.9rem;
+}
+
+.speech-buttons .btn {
+  min-width: 90px;
+
+  padding: 0.55rem 0.8rem;
+}
+
+
+/* ---------- SPEECH SPEED ---------- */
+
+.speech-speed-control {
+  display: grid;
+
+  grid-template-columns: auto 1fr auto;
+
+  align-items: center;
+
+  gap: 0.75rem;
+}
+
+.speech-speed-control label {
+  font-family:
+    'Courier New',
+    monospace;
+
+  font-size: 0.8rem;
+
+  font-weight: bold;
+
+  text-transform: uppercase;
+}
+
+.speech-speed-control span {
+  min-width: 42px;
+
+  font-family:
+    'Courier New',
+    monospace;
+
+  font-weight: bold;
+
+  color: #71394c;
+}
+
+
+/* =========================================================
+   READING AREA
+   ========================================================= */
+
+.reading-preview-wrapper {
+  border: 3px solid #9f8584;
+
+  background: #d8c9b8;
+
+  padding: 5px;
+
+  box-shadow:
+    inset 1px 1px 0 #fffaf1,
+    3px 3px 0 #a38a83;
+}
+
+.reading-sandbox {
+  background:
+    linear-gradient(
+      rgba(188, 150, 150, 0.045) 1px,
+      transparent 1px
+    ),
+    #fffaf0;
+
+  background-size: 100% 28px;
+
+  border: 2px inset #c4b3a8;
+
+  border-radius: 2px;
+
+  padding: 2rem;
+
+  color: #3f3035;
+
+  font-family: 'Lexend', sans-serif;
+
+  min-height: 220px;
+}
+
+
+/* ---------- ACTIVE TTS SENTENCE ---------- */
+
+.speech-sentence {
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.speech-sentence.speaking {
+  background: #f2aebe;
+
+  color: #422b32;
+
+  border-radius: 2px;
+
+  padding: 2px 4px;
+
+  box-shadow:
+    2px 2px 0 rgba(126, 77, 88, 0.25);
+
+  outline: 1px solid #c8798d;
+}
+
+
+/* ---------- BIONIC READING ---------- */
+
+.bionic-emphasis {
+  font-weight: 800;
+
+  color: #71394c;
+}
+
+
+/* ---------- READING RULER ---------- */
+
+#reading-ruler {
+  background: rgba(213, 112, 139, 0.24);
+
+  box-shadow:
+    0 0 10px 3px rgba(183, 92, 120, 0.16);
+
+  border: 1px solid rgba(156, 78, 101, 0.35);
+
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   FLASH MESSAGES
+   ========================================================= */
+
+.flash-banner {
+  background: #f8eadc;
+
+  border: 2px solid #c6a9a4;
+
+  border-radius: 3px;
+
+  box-shadow:
+    2px 2px 0 #aa9290;
+}
+
+
+/* =========================================================
+   AUTH / LOGIN
+   ========================================================= */
+
+.auth-panel {
+  background: #fff8ea;
+
+  border: 2px solid #ae9690;
+
+  border-radius: 4px;
+
+  box-shadow:
+    4px 4px 0 #9d8380;
+}
+
+.form-input {
+  background: #fffaf2;
+
+  border: 2px inset #c7b4a8;
+
+  border-radius: 2px;
+}
+
+.form-input:focus {
+  background: #fffdf8;
+
+  border-color: #b75c78;
+
+  box-shadow:
+    0 0 0 2px rgba(183, 92, 120, 0.20);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.app-footer {
+  background: #e5d5c5;
+
+  border-top: 3px solid #ad9690;
+
+  font-family:
+    'Courier New',
+    monospace;
+}
+
+.footer-tag-item {
+  background: #f5e6d9;
+
+  border: 2px outset #fff8f1;
+
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   RETRO DESKTOP DETAILS
+   ========================================================= */
+
+h1,
+h2,
+h3 {
+  color: #49343b;
+}
+
+h1 {
+  letter-spacing: 0;
+}
+
+a {
+  color: #a64f6a;
+}
+
+a:hover {
+  color: #71394c;
+}
+
+
+/* Small decorative desktop-style divider */
+
+.panel-header::after {
+  content: "";
+}
+
+
+/* Remove overly modern floating motion */
+
+.overview-banner:hover {
+  transform: none;
+
+  box-shadow:
+    3px 3px 0 #a58d84,
+    6px 6px 0 rgba(112, 77, 86, 0.10);
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+  .app-header {
+    padding: 0.65rem 0.8rem;
+  }
+
+  .main-wrapper {
+    padding:
+      1.25rem
+      0.8rem
+      3rem;
+  }
+
+  .workspace-panel,
+  .upload-panel {
+    padding: 1rem;
+  }
+
+  .speech-speed-control {
+    grid-template-columns: 1fr;
+  }
+
+  .speech-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reading-sandbox {
+    padding: 1.25rem;
+  }
+}
