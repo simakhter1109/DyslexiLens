@@ -51,24 +51,3 @@ Customizable Reading Interface
        ↓
 Reading Assistance
 
-## 3. Key Features
-
-### 3.1 PDF and Image Upload
-
-Users can upload PDFs and images for text extraction.
-
-```html
-<input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png">
-<button id="extract-btn">Extract Text</button>
-
-The file is sent to the Flask backend using JavaScript:
- ```javascript
-const formData = new FormData();
-formData.append("file", selectedFile);
-
-const response = await fetch("/extract", {
-    method: "POST",
-    body: formData
-});
-
-const data = await response.json();
